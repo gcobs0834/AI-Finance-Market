@@ -1,0 +1,82 @@
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+<link rel="stylesheet" href="/stylesheets/index.css" rel="stylesheet" type="text/css" media="all" />
+<!-- <link rel="stylesheet" href="/stylesheets/index-front.css" rel="stylesheet" type="text/css" media="all" /> -->
+
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #FFFFFF;
+		font-family: 'monospace', monospace;
+		font-size: 10pt;
+		font-weight: 150;
+		color: #000000;
+	}
+
+    .button a{
+        margin: 5px;
+    }
+
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 30px;
+      border-radius: 0;
+    }
+
+    /* Remove the jumbotron's default bottom margin */
+     .jumbotron {
+      margin-bottom: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+  </style>
+{{# if products }}
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+            <ul class="list-group">
+                {{# each products }}
+                    <li class="list-group-item">
+                        <span class="badge">{{ this.qty }}</span>
+                        <a href=/product/{{this.item.productTitle}}><h3><strong>{{ this.item.productTitle }}</strong></h3></a>
+                        <font color="gray"><p>{{ this.item.productDescription }}</p></font>
+                        <span class="label label-success">${{this.item.productPrice}}</span>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">編輯 <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/reduce/{{this.item._id}}">刪除一個</a></li>
+                                <li><a href="/remove/{{this.item._id}}">全部移除</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+            <strong>Total Price: ${{ totalPrice }}</strong>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+            <a href="/checkout" type="button" class="btn btn-default">確認結帳</a>
+        </div>
+    </div>
+{{ else }}
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+            <font color="black"><center><h2>您的購物車是空的。</h2></center></font>
+        </div>
+    </div>
+{{/if}}

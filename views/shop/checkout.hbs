@@ -1,0 +1,118 @@
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+<!--<link rel="stylesheet" href="/stylesheets/index.css" rel="stylesheet" type="text/css" media="all" />-->
+<!-- <link rel="stylesheet" href="/stylesheets/index-front.css" rel="stylesheet" type="text/css" media="all" /> -->
+
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #FFFFFF;
+		font-family: 'monospace', monospace;
+		font-size: 10pt;
+		font-weight: 150;
+		color: #000000;
+	}
+
+    .button a{
+        margin: 5px;
+    }
+
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 30px;
+      border-radius: 0;
+    }
+
+    /* Remove the jumbotron's default bottom margin */
+     .jumbotron {
+      margin-bottom: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+  </style>
+
+<div class="col-md-4 col-md-offset-4">
+    {{#if hasErrors}}
+        <div class="alert alert-danger">
+            {{# each messages }}
+                <p>{{this}}</p>
+            {{/each}}
+        </div>
+    {{/if}}
+</div>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <h1>付款頁面</h1>
+        <h4>總金額: NT${{total}}</h4>
+        <div id="charge-error" class="alert alert-danger {{#if noError}}hidden{{/if}}">
+            {{errMsg}}
+        </div>
+        <!--https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5!-->
+        <form action="/checkout" method="post" id="checkout-form">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" class="form-control" required name="name">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="address">地址</label>
+                        <input type="text" id="address" class="form-control" required name="address">
+                    </div>
+                </div>
+                <hr>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="card-name">持卡人姓名</label>
+                        <input type="text" id="cardName" class="form-control" name="cardName" required>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="card-number">信用卡卡號</label>
+                        <input type="text" id="cardNumber" class="form-control" name="cardNumber" required>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="card-expiry-month">有效年</label>
+                                <input type="text" id="cardExpiryMonth" class="form-control" name="cardExpiryMonth" required>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="card-expiry-year">月</label>
+                                <input type="text" id="cardExpiryYear" class="form-control" name="cardExpiryYear" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="card-cvc">卡片背面末三碼</label>
+                        <input type="text" id="cardCvc" class="form-control" name="cardCvc" required>
+                    </div>
+                </div>
+            </div><!--
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}"> -->
+           <!-- <button class="btn btn-primary" type="submit">確認付款</button>-->
+               <button class="btn btn-default" type="submit">確認付款</button>
+               <br><br><br>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+<html>
+
+<head>
+  <script>
+    // calcPortfolio
+    function calcPortfolio() {
+      FundResultID = [];
+      UserSelect = [];
+      //把篩選機制篩出來基金id PUSH進去要算portfolio的清單
+      for (i in fund_id) {
+        FundResultID.push(fund_id[i]);
+      }
+      if (aum_id[0] != "") {
+        for (i in aum_id) {
+          FundResultID.push(aum_id[i]);
+          UserSelect.push(aum_id[i]);
+        }
+      }
+      //把篩選機制篩出來基金id PUSH進去要算portfolio的清單
+      console.log(FundResultID);
+      console.log(selected_date);
+      var Data = {
+        "FundResultID": FundResultID,
+        "date": selected_date,
+        "UserSelect": UserSelect,
+        "data_type": data_type
+      }
+      var json_filterData = JSON.stringify(Data);
+      console.log("calc Portfolio fund" + json_filterData);
+      var sendData = "portfolioSelection=" + json_filterData;
+      showLoading();
+      $.ajax({
+        type: "POST",
+        url: "/mutual_Portfolio",
+        data: sendData,
+        dataType: 'text',
+        success: function (msg) {
+          //alert(msg);
+          hideLoading();
+          $("#bodyContent").html(msg);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          hideLoading();
+          alert("計算效益前緣失敗.");
+        }
+      });
+      $('#summaryAssignFund').modal('hide');
+    }
+  </script>
+</head>
+
+<body>
+  <!-- summaryAssignFund彈出式內容 -->
+  <div class="modal fade" id="summaryAssignFund">
+    <div class="modal-dialog modal-lg special-fundlist-modal">
+      <div class="modal-content">
+        <!-- modal 所有內容(include: head,body,footer) -->
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <a class="modal-title"></a>
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <!-- X button-->
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="">
+            <h4>指定基金</h4>
+            <table class="table table-sm special-table">
+              <thead>
+                <tr>
+                  <th>基金代碼</th>
+                  <th class="th_fundname">基金名稱</th>
+                  <th>當日淨值</th>
+                  <th>60天後MA5</th>
+                  <th class="th_logReturn">收益率(%)</th>
+                  <!-- <th>動作</th> -->
+                </tr>
+              </thead>
+              <tbody id="summary_user_selected">
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="">
+            <h4>AI智能篩選結果</h4>
+            <div id="predict_acuu"></div>
+            <div id="predict_rr"></div>
+            <table class="table table-sm special-table">
+              <thead>
+                <tr>
+                  <th>基金代碼</th>
+                  <th class="th_fundname">基金名稱</th>
+                  <th>當日淨值</th>
+                  <th>60天後MA5</th>
+                  <th class="th_logReturn">收益率(%)</th>
+                  <!-- <th>動作</th> -->
+                </tr>
+              </thead>
+              <tbody id="summary_rps_100_result">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!--  end Modal body: 整頁 -->
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div id="summary_Pagination">
+          </div>
+          <!-- end 下page導覽 -->
+        </div>
+
+      </div>
+      <!-- end modal 所有內容(include: head,body,footer) -->
+    </div>
+  </div>
+  <!-- end summaryAssignFund彈出式內容 -->
+  <!-- end The Modal -->
+  <!-- end 彈出式內容 -->
+</body>
+
+</html>

@@ -1,0 +1,982 @@
+<% if(arr_obj.length==0){ %>
+    No Data.
+<% } %>
+<% if(typeof cart.totalQty == 'undefined'){ cart.totalQty=0 }%>
+
+
+  <!-- Bootstrap core CSS-->
+  <link rel="stylesheet" href="/gis/vendor/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href='/gis/style/css/style-RP100Blocks.css' />
+  <link rel="stylesheet" href="/gis/vendor/simplePagination//simplePagination.css" type="text/css" />
+  <link rel="stylesheet" href='/gis/style/css/ai_selection.css' />
+
+
+  <!--加上去的-->
+  <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+  <link rel="stylesheet" href="/stylesheets/market.css" rel="stylesheet" type="text/css" media="all" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117328812-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-117328812-1');
+     </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+      body
+  	{
+  		margin: 0px;
+  		padding: 0px;
+  		background: #F7F7F7;
+  		font-family: 'monospace', monospace;
+  		font-size: 10pt;
+  		font-weight: 150;
+  		color: #000000;
+  	}
+
+      .button a{
+          margin: 1px;
+      }
+
+      /* Remove the navbar's default rounded borders and increase the bottom margin */
+      .navbar {
+        margin-bottom: 30px;
+        border-radius: 0;
+      }
+
+      /* Remove the jumbotron's default bottom margin */
+       .jumbotron {
+        margin-bottom: 0;
+      }
+
+      /* Add a gray background color and some padding to the footer */
+      footer {
+        background-color: #f2f2f2;
+        padding: 10px;
+      }
+    </style>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/gis/style/js/main_utility.js"></script>
+  <script src="/gis/style/js/jquery.min.js"></script>
+  <script src="/gis/vendor/jquery/jquery.js"></script>
+  <script src="/gis/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <!-- Start Add by kent-->
+  <script src="/gis/style/js/d3_select.js" charset="UTF-8"></script>
+  <!-- Add by Ivy: jQuery pagination-->
+  <script src="/gis/vendor/simplePagination/jquery.simplePagination.js" type="text/javascript"></script>
+
+  <!--導覽列-->
+
+  <nav class="navbar navbar-default">
+      <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">AIF</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a href="/shopping-cart">
+                          <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
+                          <span class="badge"><%=cart.totalQty %></span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="/market">
+                          <i class="fa fa-credit-card" aria-hidden="true"></i> Market
+                      </a>
+                  </li>
+
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User Management <span
+                              class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <%if(text.length!=0){%>
+                              <li><a href="/admin" class="btn btn-default">User Account</a></li>
+                              <li role="separator" class="divider"></li>
+                              <li><a href="/user/logout" class="btn btn-default">Logout</a></li>
+                            <% } else{ %>
+                              <li><a href="/user/signup" class="btn btn-default">Register</a></li>
+                              <li><a href="/user/login" class="btn btn-default">Login</a></li>
+                              <li><a href="/user/auth/facebook" class="btn btn-default"><span class="fa fa-facebook"></span> Facebook登入</a>
+                              </li>
+                          <% } %>
+                      </ul>
+                  </li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+  </nav>
+  <!--導覽列結束-->
+
+<% if(arr_obj.length!=0){%>
+    <div id="main" style="margin:0px auto;">
+        <fieldset style="width: 900px;height: 400px; margin:30px auto;">
+        <legend style="width: 250"><font color="white">GIS.智能預測服務</font></legend>
+            <!--上方按鈕列-->
+            <button type="button" style="margin-left: 82%;" class="btn btn-outline-warning small mt-4" onclick="showAllFundlist();" data-toggle="modal" data-target="#assignFund">加入指定基金</button>
+            <br>
+            <span style="color:red">&#9733;</span>指定基金: <span id="selfSelectCounter">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:black">&#9632;</span>選取/總數: <span id="selectCounter">0</span> / <span id="totalCounter">1935</span><br>
+
+            <div id="pre_date">選擇日期：<b>2017/4/17</b></div><br>
+
+            <!--選取等級區間-->
+            <h5><font color="#003366">Step1.請選擇策略:</font></h5>
+
+            <div class="abgne-menu">
+                <input type="radio" id="r_2.5" value="2.5" name="strategy">
+                <label for="r_2.5">60天後收益率大於2.5%</label>
+
+              <!--  <input type="radio" id="r_4.5" value="4.5" name="strategy">
+                <label for="r_4.5">60天後收益率大於4.5%</label> -->
+            </div>
+            <div class="abgne-menu">
+                <input type="radio" id="p_0.5" value="0.5" name="strategy2">
+                <label for="p_0.5">一級門檻</label>
+
+                <input type="radio" id="p_0.6" value="0.6" name="strategy2">
+                <label for="p_0.6">二級門檻</label>
+
+                <input type="radio" id="p_0.7" value="0.7" name="strategy2">
+                <label for="p_0.7">三級門檻</label>
+
+                <input type="radio" id="p_0.8" value="0.8" name="strategy2">
+                <label for="p_0.8">四級門檻</label>
+
+                <input type="radio" id="p_0.9" value="0.9" name="strategy2">
+                <label for="p_0.9">五級門檻</label>
+            </div>
+
+            <h5><font color="#003366">系統將從中篩選出10隻低關聯度基金</font></h5>
+
+            <button class="btn btn-outline-warning small mt-4" onclick="submitFilter2()">下一步</button>
+        </fieldset>
+    </div>
+
+    <div id="tab-demo">
+        <ul class="tab-title" style="width: 800px; ">
+            <li><a href="#tab_01">1M</a></li>
+            <li><a href="#tab_02">3M</a></li>
+            <li><a href="#tab_03">6M</a></li>
+            <li><a href="#tab_04">1Y</a></li>
+            <li><a href="#tab_05">2Y</a></li>
+            <li><a href="#tab_06">3Y</a></li>
+        </ul>
+        <div id="tab_01" class="tab-inner" style="width: 800px;height: 700px">
+            <div id="tab01" style="margin-left: 75px;"></div>
+        </div>
+        <div id="tab_02" class="tab-inner" style="width: 800px;height: 700px">
+            <div id="tab02" style="margin-left: 75px;"></div>
+        </div>
+        <div id="tab_03" class="tab-inner" style="width: 800px;height: 700px">
+            <div id="tab03" style="margin-left: 75px;"></div>
+        </div>
+        <div id="tab_04" class="tab-inner" style="width: 800px;height: 700px">
+            <div id="tab04" style="margin-left: 75px;"></div>
+        </div>
+        <div id="tab_05" class="tab-inner" style="width: 800px;height: 700px">
+            <div id="tab05" style="margin-left: 75px;"></div>
+        </div>
+        <div id="tab_06" class="tab-inner" style="width: 800px;height: 700px">
+            <div id="tab06" style="margin-left: 75px;"></div>
+        </div>
+    </div>
+<!--
+  <%- include summaryAssignFund_ai.ejs %>-->
+  <!-- 彈出式內容 (now: 指定基金assignFund、篩選後結果summaryAssignFund)-->
+  <!-- The Modal -->
+  <!-- assignFund彈出式內容 -->
+  <div class="modal fade" id="assignFund">
+    <div class="modal-dialog modal-lg special-fundlist-modal">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <a class="modal-title">*Assign</a>
+          <!--assign(指定清單)-->
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <!-- X button-->
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="addlist">
+            <!-- div addlist 指定清單 -->
+            <table class="table table-sm special-table">
+            <thead>
+                <tr>
+                  <th class="th_fundId">基金代碼</th>
+                  <th class="th_fundname_in_assignList">基金名稱</th>
+                  <th class="">動作</th>
+                </tr>
+              </thead>
+              <tbody id="add-specify-fundlist">
+              </tbody>
+            </table>
+            <div>
+              <button type="button" class="btn btn-outline-warning btn-sm" data-dismiss="modal" onclick="onUserSelectConfirm()">
+                <b>Comfirm</b>
+              </button>
+            </div>
+          </div>
+          <!-- end div addlist 指定清單 -->
+
+          <br>
+
+          <div class="fund-detail">
+            <ul class="nav nav-tabs">
+              <a>*Overview</a>
+            </ul>
+            <!-- 搜尋功能 -->
+            <!--<label class="text-secondary">搜尋</label><input id="search_keyword" type="text" placeholder="Search...">
+            <br><br> -->
+            <!-- end 搜尋功能 -->
+              <table class="table table-sm special-table">
+                <thead>
+                  <tr>
+                    <th>基金代碼</th>
+                    <th class="th_fundname">基金名稱</th>
+                    <th>淨值日期</th>
+                    <th>淨值</th>
+                    <th>標準差</th>
+                    <th>夏普率</th>
+                    <th class="th_logReturn">對數收益率</th>
+                    <th>動作</th>
+                  </tr>
+                </thead>
+
+                <tbody id="allFundlist_all">
+                </tbody>
+              </table>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <div id="Pagination" class="">
+            </div>
+          </div>
+          <!-- end 下page導覽 -->
+
+    <input id='Selection' name='Selection' type='text' style='display:none;' />
+    <form name="form" id='num_slect_filter' action='/etf_FundResult' method='post'>
+        <input id='NumSelection' name='Selection' type='text' style='display:none;'/>
+    </form>
+
+<script>
+    //***********************************
+    //*********** 預測資料處理 ************
+    //***********************************
+    var radio_checked = 0;
+    var array_obj = "<%= JSON.stringify(arr_obj) %>";
+    var decoded_data = decodeHtml(array_obj);
+    var json_data = JSON.parse(decoded_data);
+    var fundlist = "<%=fundlist%>";
+    var user_select_fundlist = []; // save user select fundlist[i].name
+    fundlist = JSON.parse(decodeHtml(fundlist));
+    document.getElementById("totalCounter").innerHTML = fundlist.length;
+    var fundMap = {};
+    var aiMap = {};
+
+    var result_fund_counter = 0;
+    var result_raise_counter = 0;
+    var result_rr_counter=0;
+    // cover list to msp
+    fundlist.forEach(function (it) {
+      fundMap[it.name] = it;
+    });
+    json_data.forEach(function (it) {
+      aiMap[it.fund_id] = it;
+    });
+
+    var data_by_precision = [[],[],[],[],[]];
+
+    for(var i=0;i<json_data.length;i++){
+        var k = json_data[i].rate;
+        if(k>0.5){
+            data_by_precision[0].push(json_data[i]);
+        }
+        if(k>0.6){
+            data_by_precision[1].push(json_data[i]);
+        }
+        if(k>0.7){
+            data_by_precision[2].push(json_data[i]);
+        }
+        if(k>0.8){
+            data_by_precision[3].push(json_data[i]);
+        }
+        if(k>0.9){
+            data_by_precision[4].push(json_data[i]);
+        }
+    }
+
+
+    var now_click_on = -1
+    $("input:radio").on("click",function (e) {
+        type = $("input[name='strategy']:checked").val();
+        if(type=="2.5"){
+            key = ["0.5","0.6","0.7","0.8","0.9"];
+            precision = $("input[name='strategy2']:checked").val();
+            index = key.indexOf(precision);
+            // console.log(index)
+
+            if(index!=-1){
+                if(now_click_on!=-1){//need color back
+                    for (var k = 0; k < data_by_precision[0].length; k++) {
+                        for (var i = 0; i < 6; i++) {
+                            var dot = d3.select("#d3_" + i.toString() + "_dot_" + data_by_precision[0][k].fund_id)
+                            dot.style("fill", "darkgray");
+                        }
+                    }
+                }
+                //console.log(data_by_precision[index])
+
+                now_click_on = index
+
+                for (var k = 0; k < data_by_precision[index].length; k++) {
+
+                    //change all ver.
+                    for (var i = 0; i < 6; i++) {
+                        //console.log(data_by_precision[index][k].fund_id)
+                        var dot = d3.select("#d3_" + i.toString() + "_dot_" + data_by_precision[index][k].fund_id)
+                        dot.style("fill", "#1a3c70");
+                    }
+
+                    //change viewing page ver.
+                    // var dot = d3.select("#d3_" + now_click_on.toString() + "_dot_" + data_by_precision[now_click_on][k].fund_id)
+                    //     dot.style("fill", "#1a8cff");
+                }
+                radio_checked = 1;
+                document.getElementById("selectCounter").innerHTML = data_by_precision[index].length;
+
+                SliderChange(data_by_precision[index].length);
+            }
+
+        }
+
+        if(type=="4.5"){
+            if(now_click_on!=-1){//need color back
+                    for (var k = 0; k < data_by_precision[0].length; k++) {
+                        for (var i = 0; i < 6; i++) {
+                            var dot = d3.select("#d3_" + i.toString() + "_dot_" + data_by_precision[0][k].fund_id)
+                            dot.style("fill", "darkgray");
+                        }
+                    }
+            }
+            document.getElementById("selectCounter").innerHTML = 0;
+            SliderChange(0);
+        }
+
+    });
+    //***********************************
+    //***********   Slider   ************
+    //***********************************
+
+    function SliderChange(max,min=0,val=0){
+        $('#myRange').attr('max',max).change();
+        $('#myRange').attr('min',min).change();
+        $("#myRange").val(val);
+
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+        }
+    }
+
+    $(function(){
+    var $li = $('ul.tab-title li');
+        $($li. eq(0) .addClass('active').find('a').attr('href')).siblings('.tab-inner').hide();
+
+        $li.click(function(){
+            $($(this).find('a'). attr ('href')).show().siblings ('.tab-inner').hide();
+            $(this).addClass('active'). siblings ('.active').removeClass('active');
+        });
+    });
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    function clone(obj) {
+        var copy;
+        if (null == obj || "object" != typeof obj) return obj;
+        if (obj instanceof Date) {
+            copy = new Date();
+            copy.setTime(obj.getTime());
+            return copy;
+        }
+        if (obj instanceof Array) {
+            copy = [];
+            for (var i = 0, len = obj.length; i < len; i++) {
+                copy[i] = clone(obj[i]);
+            }
+            return copy;
+        }
+        if (obj instanceof Object) {
+            copy = {};
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+            }
+            return copy;
+        }
+    }
+
+    //***********************************
+    //*********** 指定基金處理 ************
+    //***********************************
+
+    function showAllFundlist() {
+        var showHtml = "";
+
+        for (i = 0; i < fundlist.length; i++) {
+          // console.log("Date formatDate:" + formatDate(fundMap[id].nav_date));
+          showHtml += "<tr>" +
+            getFundDetail(fundlist[i]) +
+              "<td>" + "<button id=\"btn_add_" + fundlist[i].name +
+              "\" onClick=\"selfSelectSubject(\'" + i + "\', true)\"" + ">" +
+              "+ add</button>" + "</td>" + "</tr>";
+        }
+        console.log("total length: ", fundlist.length);
+
+        $("#allFundlist_all").html(showHtml); // show all fund list
+        disableUserSelectedAddBtn(user_select_fundlist); // disabled selected subject's add button
+        generatePagination(); // pagination
+    }
+
+        function generatePagination() { // generate Pagination function by plugin: jquery.simplePagination.js
+            var items = $("#allFundlist_all tr"); // Grab whatever we need to paginate
+            var numItems = items.length; // how many <tr> data (total fundlist data)
+            var perPage = 10; // how many items in one page
+
+            items.slice(perPage).hide();
+
+            $("#Pagination").pagination({
+              items: numItems,
+              itemsOnPage: perPage,
+              cssStyle: "light-theme",
+
+              onPageClick: function (pageNumber) {
+                var start = perPage * (pageNumber - 1);
+                var end = start + perPage;
+                // We'll first hide everything...
+                items.hide().slice(start, end).show();
+              }
+            });
+          }
+
+        function onUserSelectConfirm() {
+            console.log("onUserSelectConfirm: show user selection");
+        }
+
+        function disableUserSelectedAddBtn(user_select_fundlist) { // avoid click btn twice
+            for (i = 0; i < user_select_fundlist.length; i++) {
+                setAddBtnEnable(user_select_fundlist[i], false)
+            }
+        }
+
+        function setAddBtnEnable(id, enable) {
+            if (enable == false) {
+                $("#btn_add_" + id).attr("disabled", "true");
+            } else {
+                $("#btn_add_" + id).removeAttr("disabled");
+            }
+        }
+
+    //***********************************
+    //************** 分布圖 **************
+    //***********************************
+    var point_1m = "<%=point_1m%>";
+    var point_3m = "<%=point_3m%>";
+    var point_6m = "<%=point_6m%>";
+    var point_1y = "<%=point_1y%>";
+    var point_2y = "<%=point_2y%>";
+    var point_3y = "<%=point_3y%>";
+    var selected_day = "<%=date%>";
+    var selected_type = "<%=selected_type%>";
+    var in_which_interval_page = 0;
+    var loc = ['[id="tab01"]','[id="tab02"]','[id="tab03"]','[id="tab04"]','[id="tab05"]','[id="tab06"]']
+
+    D3_draw(point_1m, 0)
+    D3_draw(point_3m, 1)
+    D3_draw(point_6m, 2)
+    D3_draw(point_1y, 3)
+    D3_draw(point_2y, 4)
+    D3_draw(point_3y, 5)
+
+    function D3_draw(point, interval){
+        var decodeHtmlData = decodeHtml(point);
+        var jsonData = JSON.parse(decodeHtmlData);
+        var dots = clone(jsonData);
+
+        /*** 風險收益圖 ***/
+        //範圍優化
+        for (i = 0; i < dots.length; i++) {
+            if (dots[i].x > 2) {
+                dots.splice(i, 1);
+                i = i - 1;
+            }
+        }
+
+        //找極端最大點
+        var max_x = 0;
+        var max_y = 0;
+        var min_y = 999;
+        for (i = 0; i < dots.length; i++) {
+            if (dots[i].x > max_x) {
+                max_x = dots[i].x;
+            }
+            if (dots[i].y > max_y) {
+                max_y = dots[i].y;
+            }
+            if (dots[i].y < min_y) {
+                min_y = dots[i].y;
+            }
+        }
+
+
+        var w = 650,
+            h = 650,
+            padding = 66;
+
+        var svg = d3.select(loc[interval]).append('svg').attr({
+            'id': "d3_"+interval+"_svg",
+            'width': w,
+            'height': h
+        })
+
+        var xScale = d3.scale.linear() //製作線性尺度
+            .range([padding, w - padding]) //輸出的範圍
+            .domain(d3.extent(dots, function(d) {
+                return d.x;
+            })).nice();
+
+        var yScale = d3.scale.linear()
+            .range([h - padding, padding])
+            .domain(d3.extent(dots, function(d) {
+                return d.y;
+            })).nice();
+
+        var xAxis = d3.svg.axis().scale(xScale) //增加軸線物件，並套用尺度(x)
+            .orient("bottom") //標示位置
+            .ticks(10) //刻度數量
+
+        var yAxis = d3.svg.axis().scale(yScale) //增加軸線物件，並套用尺度(y)
+            .orient("left") //標示位置
+            .ticks(10) //刻度數量
+
+        svg.append('g').attr('class', 'axis') //增加一個群組並加上class="axis"
+            .attr('transform', 'translate(0, ' + (h - padding) + ')') //移動到下方
+            .call(xAxis) //將軸線匯入
+            .style("font-size", "10px");
+
+        svg.append('g').attr('class', 'axis')
+            .attr('transform', 'translate(' + (padding) + ')', 0) //移動到左方
+            .call(yAxis)
+            .style("font-size", "10px");
+
+        svg.selectAll()
+            .data(dots)
+            .enter().append("circle")
+            .attr("id", function(d) {
+                return "d3_"+interval+"_dot_" + d.id;
+            })
+            .attr("rank_0", "0")
+            .attr("rank_1", "0")
+            .attr("rank_2", "0")
+            .attr("rank_3", "0")
+            .attr("rank_4", "0")
+            .attr("rank_5", "0")
+            .attr("select_count", "0")
+            .attr("self_select", "0")
+            .attr("r", 2.0)
+            .attr("cx", function(d) {
+                return xScale(d.x);
+            })
+            .attr("cy", function(d) {
+                return yScale(d.y);
+            })
+            .style("fill", "darkgray")
+            .style("opacity", "0.6")
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", dot_click_href);
+
+        svg.append('line').attr({
+            x1: xScale(0),
+            y1: yScale(0),
+            x2: xScale(max_x),
+            y2: yScale(0)
+        }).style({
+            stroke: 'black',
+            'stroke-width': 2
+        });
+
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(" + padding / 2 + "," + (h / 2) + ")rotate(-90)")
+            .text("收益率")
+            .style("font-size", "12px");
+
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(" + (w / 2) + "," + (h - (padding / 3)) + ")")
+            .text("風險")
+            .style("font-size", "12px");
+
+        function dot_click_href(d) {
+            //url = "https://finance.yahoo.com/chart/" + d.id;
+            url = "https://www.moneydj.com/funddj/ya/yp010001.djhtm?a=" + d.id;
+            var win = window.open(url, '_blank');
+            win.focus();
+        };
+
+        function handleMouseOver(d, i) {
+            //alert(d3.select(this).style("fill"));
+            d3.select(this).attr({
+                before_r: d3.select(this).attr("r"),
+                before_fill: d3.select(this).style("fill"),
+                before_opacity: d3.select(this).style("opacity"),
+                r: 5.0
+            });
+            d3.select(this).style({
+                fill: "purple",
+                opacity: 1
+            });
+
+            svg.append("text").attr({
+                    id: "t_" + d.id,
+                    x: function() {
+                        return xScale(d.x) - 30;
+                    },
+                    y: function() {
+                        return yScale(d.y) - 15;
+                    }
+                })
+                .style("fill", "black")
+                .style("opacity", "1")
+                .text(function() {
+                    return [d.id + "(" + Math.floor(d.x * 1000) / 1000 + "," + Math.floor(d.y * 1000) / 1000 + ")"];
+                });
+
+        }
+
+        function handleMouseOut(d, i) {
+            d3.select(this).style({
+                fill: d3.select(this).attr("before_fill"),
+                opacity: d3.select(this).attr("before_opacity")
+            });
+            d3.select(this).attr({
+                r: d3.select(this).attr("before_r"),
+                before_fill: null,
+                before_opacity: null,
+                before_r: null
+            });
+            d3.select("#t_" + d.id).remove();
+        }
+    }
+
+
+    function selfSelectSubject(idx, selected) {
+    console.log(idx + " selected:" + selected)
+
+    if (selected == true) {
+      $("#add-specify-fundlist").append("<tr id=\"tr_" + fundlist[idx].name + "\">" + "<td>" + fundlist[idx].name + "</td>" +
+        "<td>" + fundlist[idx].full_name + "</td>" + "<td>" + "<button id=" +
+        "\"btn_remove_" + fundlist[idx].name + "\" onClick=\"selfSelectSubject(\'" + idx + "\', false)\"" + ">" +
+        "X" + "</button>" + "</td>" + "</tr>");
+
+      user_select_fundlist.push(fundlist[idx].name);
+      setAddBtnEnable(fundlist[idx].name, false)
+      console.log("Add user select:" + user_select_fundlist);
+
+      var ssc = Number($("#selfSelectCounter").text())
+      $("#selfSelectCounter").text(ssc+1)
+
+      // handle dot indicator
+      // left svg
+      for (var i = 0; i < 6; i++) {
+        var dot = d3.select("#d3_" + i.toString() + "_dot_" + fundlist[idx].name)
+        dot.attr("self_select", "1")
+        d3_dot_color_handler(dot)
+
+        var svg = d3.select("#d3_" + i + "_svg")
+        svg.append("svg:polygon")
+          .attr("id", "d3_" + i.toString() + "_star_" + fundlist[idx].name)
+          .attr("visibility", "visible")
+          .attr("points", CalculateStarPoints(Number(dot.attr("cx")), Number(dot.attr("cy")), 5, 5, 5/2.6666))
+          .style("fill", "red")
+
+        // append dot to last element of svg, so the mouse over will still work
+        $("#d3_" + i.toString() + "_dot_" + fundlist[idx].name).appendTo("#d3_" + i + "_svg")
+      }
+    } else {
+      var id = user_select_fundlist.indexOf(fundlist[idx].name)
+      if (id == -1) {
+        return;
+      }
+      user_select_fundlist.splice(id, 1);
+      $("#tr_" + fundlist[idx].name).remove()
+      setAddBtnEnable(fundlist[idx].name, true)
+
+      var ssc = Number($("#selfSelectCounter").text())
+      $("#selfSelectCounter").text(ssc-1)
+    }
+  }
+
+  function CalculateStarPoints(centerX, centerY, arms, outerRadius, innerRadius) {
+    var results = "";
+    var angle = Math.PI / arms;
+
+    for (var i = 0; i < 2 * arms; i++) {
+        // Use outer or inner radius depending on what iteration we are in.
+        var r = (i & 1) == 0 ? outerRadius : innerRadius;
+
+        var currX = centerX + Math.cos(i * angle) * r;
+        var currY = centerY + Math.sin(i * angle) * r;
+
+        // Our first time we simply append the coordinates, subsequet times
+        // we append a ", " to distinguish each coordinate pair.
+        if (i == 0) {
+          results = currX + "," + currY;
+        } else {
+          results += ", " + currX + "," + currY;
+        }
+    }
+
+    return results;
+  }
+
+   function GetBlock(fundName,interval){
+    var block_id = -1
+    for (var i = 0; i < fund_name_list[interval].length; i++) {
+        var contains = (fund_name_list[interval][i].indexOf(fundName) > -1)
+        if (contains == true) {
+            block_id = i
+        }
+    }
+    return block_id
+  }
+
+  function disableUserSelectedAddBtn(user_select_fundlist) { // avoid click btn twice
+    for (i = 0; i < user_select_fundlist.length; i++) {
+      setAddBtnEnable(user_select_fundlist[i], false)
+    }
+  }
+
+  function setAddBtnEnable(id, enable) {
+    if (enable == false) {
+      $("#btn_add_" + id).attr("disabled", "true");
+    } else {
+      $("#btn_add_" + id).removeAttr("disabled");
+    }
+  }
+
+
+    function submitFilter2(){
+        var corNum = 10;
+        if(corNum==0){
+            alert("請選擇預測策略。")
+        }else{
+            console.log("submitNumberSelection");
+            var profitNum = 0;
+            var type = "allCor";
+            showLoading();
+
+            var aum_selected = "";
+            for (i = 0; i < user_select_fundlist.length; i++) {
+                aum_selected += user_select_fundlist[i] + " ";
+            }
+
+            key = ["0.5","0.6","0.7","0.8","0.9"];
+            precision = $("input[name='strategy2']:checked").val();
+            index = key.indexOf(precision);
+
+            var r_fundlist = ""
+            if(index!=-1){
+                for (var k = 0; k < data_by_precision[index].length; k++) {
+                    r_fundlist+=data_by_precision[index][k].fund_id+","
+                }
+            }
+            r_fundlist = r_fundlist.slice(0, -1);
+            //console.log("r_fundlist",r_fundlist);
+
+
+            var Data = {
+                "date": "2017-4-17",
+                "fundList": r_fundlist,
+                "type": type,
+                "corNum": corNum,
+                "profitNum": profitNum,
+                "aum_selected": aum_selected,
+                "data_type": "mutual_fund"
+            }
+            var json_filterData = JSON.stringify(Data);
+            //console.log("json:" + json_filterData);
+            document.getElementById("NumSelection").value = json_filterData;
+            //document.getElementById('filter').submit();
+            //document.getElementById("bodyContent").innerHTML="Processing,please wait ...";
+            // Kent: Use the ajax to post rankForm
+            $.ajax({
+                type: "POST",
+                url: "/mutual_FundResult",
+                data: $('#num_slect_filter').serialize(),
+                dataType: 'text',
+                success: function (msg) {
+                    hideLoading();
+                    progressFundResult(msg);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    hideLoading();
+                    alert("篩選失敗.");
+                }
+            });
+
+        }
+
+    }
+
+    function progressFundResult(data) {
+        result_fund_counter=0;
+        result_raise_counter=0;
+        result_rr_counter=0;
+
+        console.log("progressFundResult");
+        var json = $.parseJSON(data); //parse JSON
+        var results = json.results;
+        // Prepare the html
+        var table_html = "";
+        // TODO: donot use space to separte data;
+        // RPS Selection
+        fund_id = results[0].toString().trim().split(" ");
+        full_fund_id = results[1].toString().trim().split("||");
+        // user Specified
+        aum_id = results[2].toString().trim().split(" ");
+        full_aum_id = results[3].toString().trim().split("||");
+        selected_date = json.SelectDate;
+        // rps selection
+        for (i = 0; i < fund_id.length; i++) {
+            table_html += "<tr>" +
+                getFundDetail_ai(fundMap[fund_id[i]],fund_id[i]) +
+                "</tr>";
+        }
+        $('#summary_rps_100_result').html(table_html);
+
+        // user selection
+        table_html = "";
+        for (i = 0; i < aum_id.length; i++) {
+            if (aum_id[i] != "") {
+                table_html += "<tr>" +
+                    getFundDetail_ai(fundMap[aum_id[i]],fund_id[i]) + // detail
+                    "</tr>";
+            }
+        }
+        $('#summary_user_selected').html(table_html);
+        // generateSummaryPagination
+        generateSummaryPagination("#summary_rps_100_result tr", "#summary_Pagination");
+        // show summary modal
+        $('#summaryAssignFund').modal('show');
+    }
+
+    // TODO: unify the generateSummaryPagination
+    function generateSummaryPagination(list_src, target_div) { // generate Pagination function by plugin: jquery.simplePagination.js
+        var items = $(list_src); // Grab whatever we need to paginate
+        var numItems = items.length; // how many <tr> data (total fundlist data)
+        var perPage = 10; // how many items in one page
+
+        items.slice(perPage).hide();
+
+        $(target_div).pagination({
+            items: numItems,
+            itemsOnPage: perPage,
+            cssStyle: "light-theme",
+
+            onPageClick: function (pageNumber) {
+                var start = perPage * (pageNumber - 1);
+                var end = start + perPage;
+                // We'll first hide everything...
+                items.hide().slice(start, end).show();
+            }
+        });
+    }
+
+    // Get fund detail
+    function getFundDetail_ai(fundItem,fund_id) {
+        console.log("get fund detail");
+        var fund_detail = "";
+        var valid_item = (typeof fundItem !== "undefined") ? true : false;
+
+        var detailID = "";
+        var detailName = "";
+        var detailNavDate = "";
+        var detailNav = "";
+        var detailSD = "";
+        var detailSdRank = "";
+        var detailSharpratio = "";
+        var detailReturnrate = "";
+        var detailRank_rate = "";
+        if (valid_item) {
+            detailID = fundItem.name
+            detailName = fundItem.full_name;
+            detailNavDate = formatDate(fundItem.nav_date);
+            detailNav = adjustValue(fundItem.nav);
+            detailSd = adjustValue(fundItem.sd);
+            detailSdRank = adjustValue(fundItem.rank_sd);
+            detailSharpratio = adjustValue(fundItem.sharpratio);
+            detailReturnrate = adjustValue(fundItem.returnrate);
+            detailRank_rate = adjustValue(fundItem.rank_rate);
+        }
+
+        var nav = "";
+        var nav_after = "";
+        var p_val = "";
+        nav = aiMap[fund_id].nav;
+        nav_after = aiMap[fund_id].nav_after;
+        p_val = aiMap[fund_id].rate;
+        var rr=(100*(nav_after-nav)/nav);
+
+        color_flag = parseFloat(nav_after)>parseFloat(nav)?"Green":"Red";
+        result_fund_counter+=1;
+        if(color_flag=="Green"){
+            result_raise_counter+=1;
+        }
+        document.getElementById("predict_acuu").innerHTML="60天後實際上漲基金數/預測上漲總數："+result_raise_counter+"/"+result_fund_counter+" ("+(100*(result_raise_counter/result_fund_counter)).toString().substring(0,5)+"%)";
+
+
+        result_rr_counter+=rr;
+        document.getElementById("predict_rr").innerHTML="總收益率："+(result_rr_counter/result_fund_counter).toString().substring(0,5)+"%";
+
+
+        fund_detail +=
+            "<td>" + detailID + "</td>" + // ID
+            "<td class=" + "\"special-fundlist-wordLength\"" + ">" + detailName + "</td>" + // Name
+            "<td>" + nav.toString().substring(0,6) + "</td>" + // 淨值
+            "<td><font color=\""+color_flag+"\"><b>" + nav_after.toString().substring(0,6) + "</b></font></td>" +
+            "<td><font color=\""+color_flag+"\"><b>" + rr.toString().substring(0,5) + "</b></font></td>"; // returnrate
+        return fund_detail;
+    }
+
+</script>
+<% } %>

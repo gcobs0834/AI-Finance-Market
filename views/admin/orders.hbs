@@ -1,0 +1,28 @@
+
+{{> menu}}
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-0">
+    <br><br><br>
+    {{# each orders }}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul class="list-group">
+                  <strong>　Order items:</strong>
+                    {{# each this.items }}
+                        <li class="list-group-item">
+                            <span class="badge">{{ this.price }}</span>
+                            <a href="/product/{{this.item.productTitle}}">{{ this.item.productTitle }}</a>| {{ this.qty }} Units
+                        </li>
+                    {{/each}}
+                    <!-- <li class="list-group-item"> -->
+                    <strong>　Order Date:</strong> {{ this.orderDate }}<br>
+                    <!-- </li> -->
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <strong>Total Price: ${{ this.cart.totalPrice }}</strong>
+            </div>
+        </div>
+    {{/each}}
+  </div>
+</div>

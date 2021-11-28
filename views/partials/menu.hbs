@@ -1,0 +1,67 @@
+
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+<!--<link rel="stylesheet" href="/stylesheets/index.css" rel="stylesheet" type="text/css" media="all" />-->
+<!-- <link rel="stylesheet" href="/stylesheets/index-front.css" rel="stylesheet" type="text/css" media="all" /> -->
+
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="col-lg-3">
+
+      <style>
+    body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #F5F5F5;
+		font-family: monospace;
+		font-size: 10pt;
+		font-weight: 150;
+		color: #000000;
+	}
+
+    .button a{
+        margin: 5px;
+    }
+
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 30px;
+      border-radius: 0;
+    }
+
+    /* Remove the jumbotron's default bottom margin */
+     .jumbotron {
+      margin-bottom: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    .welcome {
+      background:#f2f2f2;
+    }
+  </style>
+    <h2>Menu</h2>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Products</strong></li>
+        {{!-- {{#ifCond session.isAdmin '===' true}} --}}
+        <li class="list-group-item"><i class="fa fa-plus-square-o fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/product/new">New</a></li>
+        {{!-- {{/ifCond}} --}}
+        <li class="list-group-item"><i class="fa fa-list fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/products">List Products</a></li>
+        <li class="list-group-item"><strong>Orders</strong></li>
+        <li class="list-group-item"><i class="fa fa-cube fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/orders">List</a></li>
+        <!-- <li class="list-group-item"><strong>Customers</strong></li> -->
+        <!-- <li class="list-group-item"><i class="fa fa-users fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/customers">List</a></li>
+        <li class="list-group-item"><strong>Users</strong></li>
+        {{!-- {{#ifCond session.isAdmin '===' true}} --}}
+        <li class="list-group-item"><i class="fa fa-user-plus fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/user/new">New</a></li>
+        <li class="list-group-item"><i class="fa fa-user fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/users">Edit</a></li>
+        {{!-- {{/ifCond}} --}}
+        <li class="list-group-item"><i class="fa fa-user-circle-o fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/user/edit/{{session.userId}}">My Account</a></li>
+        <li class="list-group-item"><strong>Settings</strong></li>
+        <li class="list-group-item"><i class="fa fa-cog fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/settings">General settings</a></li>
+        <li class="list-group-item"><i class="fa fa-bars fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/settings/menu">Menu</a></li>
+        <li class="list-group-item"><i class="fa fa-file-o fa-icon" aria-hidden="true"></i> &nbsp; <a href="/admin/settings/pages">Static pages</a></li> -->
+    </ul>
+</div>

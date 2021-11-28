@@ -1,0 +1,268 @@
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+<link rel="stylesheet" href="/stylesheets/market.css" rel="stylesheet" type="text/css" media="all" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117328812-1"></script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #F7F7F7;
+		font-family: 'monospace', monospace;
+		font-size: 10pt;
+		font-weight: 150;
+		color: #000000;
+	}
+
+    .button a{
+        margin: 5px;
+    }
+
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 30px;
+      border-radius: 0;
+    }
+
+    /* Remove the jumbotron's default bottom margin */
+     .jumbotron {
+      margin-bottom: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+  </style>
+<script>
+//button
+  window.onload =function(){
+    var count = document.getElementById("count");
+    var inc = document.getElementById("inc");
+    var dec = document.getElementById("dec");
+    inc.onclick = function(){
+      count.value = parseInt(count.value)+1;
+    }
+    dec.onclick = function(){
+      count.value = parseInt(count.value)-1;
+      if(parseInt(count.value)<= 1){
+        count.value=1;
+      }
+    }
+  }
+</script>
+
+<!-- <style>
+    html {
+      background: #F7F7F7;
+      font-family: "Microsoft YaHei", sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      color: black;
+    }
+
+    input[type="submit"]{
+      padding:5px 5px;
+      background:#ccc;
+      border:0 none;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+
+    input[type="text"]{
+      /* padding:5px px; */
+      border:2px black solid;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+    .messages .comments {
+      font-family: "Microsoft YaHei";
+    }
+</style> -->
+<body>
+
+<div class="row">
+  <div class="product-layout col-md-10 col-md-offset-2 clearfix">
+    <!-- <div class="container-fluid"> -->
+          <div class="col-md-6 pull-right">
+              <div class="row">
+              <h1 class="col-md-10 product-title">{{results.productTitle}}</h1>
+              <h4 class="col-md-10 product-price">{{currencySymbol config.currencySymbol}}{{results.productPrice}}</h4>
+              {{#if productOptions}}
+                  <h4 class="col-md-10 product-option">Options</h4>
+                  <div class="col-md-10">
+                  {{#each productOptions}}
+                      {{#ifCond this.optType '==' "select"}}
+                          <strong>{{this.optName}}</strong>
+                          <select name="opt-{{this.optName}}" class="form-control product-opt">
+                              {{#each this.optOptions}}
+                                  <option value="{{this}}">{{this}}</option>
+                              {{/each}}
+                          </select>
+                      {{/ifCond}}
+                      {{#ifCond this.optType '==' "radio"}}
+                          {{#each this.optOptions}}
+                              <strong>{{this.optName}}</strong>
+                              <div class="radio">
+                                  <label>
+                                      <input type="radio" class="product-opt" name="opt-{{../this.optName}}" value="{{this}}">
+                                      {{this}}
+                                  </label>
+                              </div>
+                          {{/each}}
+                      {{/ifCond}}
+                      {{#ifCond this.optType '==' "checkbox"}}
+                          <div class="checkbox">
+                              <label>
+                                  <input type="checkbox" class="product-opt" name="opt-{{../this.optName}}" value="{{this.optName}}"><strong>{{this.optName}}</strong>
+                              </label>
+                          </div>
+                      {{/ifCond}}
+                  {{/each}}
+                  </div>
+              {{/if}}
+
+              <div class="col-md-10 productOptions">
+                  <div class="col-md-10 body_text">
+                      {{{results.productDescription}}}<br>
+                  </div>
+                        <br>
+                <form method='post' action='/add-to-cart/{{results._id}}' >
+                <div class="input-group col-sm-12" >
+                    <span class="input-group-btn">
+                        <input class="btn btn-default qty-btn-minus" type="button" id="dec" value="-"></input>
+                    </span>
+                    <input type="text" class="form-control text-center" value="1" id="count" name="count"></input>
+                    <span class="input-group-btn">
+                        <input class="btn btn-default qty-btn-plus" type="button" id="inc" value="+"></input>
+                    </span>
+                   <!-- <p class="product-option-text">Months</p>-->
+                </div>
+                <br>
+                <div class="col-md-8 btnAddToCart">
+                    <button type="submit" class="btn btn-primary btn-block product-add-to-cart" role="button">Add to cart</button>
+                </div>
+                </form>
+                {{#if bought}}
+                <div class="col-md-4 pull-right">
+                  <form method='post' action='/downloads/{{results.productTitle}}' >
+                        <button type="submit" class="btn btn-default">Download file</button>
+                  </form>
+                </div>
+                {{/if}}
+
+        </div>
+     </div>
+   </div>
+        <div class="col-sm-6 pull-left">
+            {{#if results.imagePath}}
+                <div class="title-image-container">
+                    <!--<div class="image-prev image-button"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>-->
+                    <img src="{{results.imagePath}} " id="product-title-image" class="product-title-image img-responsive" alt="...">
+                    <!--<div class="image-next image-button"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>-->
+                </div>
+            {{else}}
+                <div class="title-image-container">
+                    <img src="/uploads/placeholder.png" id="product-title-image" class="product-title-image img-responsive" alt="...">
+                </div>
+            {{/if}}
+            {{#ifCond images.length '>' 1}}
+                {{#each images}}
+                    <div class="vertical-center top-pad-20 col-xs-6 col-lg-6 col-xl-6">
+                        <img src="{{this.path}}" class="thumbnail-image img-responsive">
+                    </div>
+                {{/each}}
+            {{/ifCond}}
+        </div>
+
+
+    <!-- </div> -->
+</div>
+
+
+<input type="hidden" id="productId" value="{{results._id}}">
+<div class="col-xs-10 col-md-offset-10 col-lg-10 col-lg-offset-0 clearfix" >
+<font face="Microsoft YaHei">
+<font face="Microsoft YaHei"><h3>Leave a Message</h3></font>
+     <br>
+         <form method='post' action='/board/messages'>
+           {{#if login}}
+             <div class="form-group">
+                 <label for="name">名字</label>
+                 {{text}}
+             </div>
+           {{/if}}
+           <div class="col-xl-4 clearfix">
+             <div class="form-group-sm">
+                 <label for="message">訊息</label>
+                 <input type="text" id="message" class="form-control" name="message">
+             </div>
+             <br>
+             <button type="submit" class="btn btn-primary">Post Message</button>
+             <br><br>
+           </div>
+         </form>
+
+
+
+<div class='messages'>
+    {{#each messages}}
+    <div class="col-md-10 col-md-offset-8 col-lg-offset-0" >
+    <font face="Sans serif"><h3>Comment</h3></font>
+              <pre>
+               Name:{{name}}
+               <br>
+               Message:{{message}}
+               <br>
+               Time:{{created_at}}
+             </pre>
+           </div>
+         <div class='comments'>
+               {{#each comments}}
+               <div class="col-md-11 col-md-offset-8 col-lg-offset-0 pull-right" >
+                <h3>Reply</h3>
+                <pre>
+                     Name:{{name}}
+                     <br>
+                     Comment:{{comment}}
+                     <br>
+                     Time:{{created_at}}
+                 </pre>
+               </div>
+               {{/each}}
+        </div>
+        <form method='post' action='/board/comments'>
+            <div class="form-group">
+                <input type="hidden"  class="form-control" name="_Message" value={{_id}}>
+            </div>
+            {{#if login}}
+              <div class="form-group">
+                  <label for="name">nmae</label>
+                  {{text}}
+              </div>
+            {{/if}}
+          <div class="form-group">
+           <div class="col-md-11 col-md-offset-8 col-lg-offset-0 pull-right">
+              <label for="message">reply</label>
+              <input type="text" id="comment" class="form-control" name="comment">
+              <br>
+              <button type="submit" class="btn btn-primary">Reply the comment</button>
+              <br><br>
+            </div>
+          </div>
+        </form>
+        {{/each}}
+
+</div>
+</div>
+</font>
+</div>
+</body>
+</html>

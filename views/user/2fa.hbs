@@ -1,0 +1,57 @@
+<link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+<link rel="stylesheet" href="/stylesheets/index.css" rel="stylesheet" type="text/css" media="all" />
+<!-- <link rel="stylesheet" href="/stylesheets/index-front.css" rel="stylesheet" type="text/css" media="all" /> -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117328812-1"></script>
+
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #F2F2F2;
+		font-family: 'monospace', monospace;
+		font-size: 10pt;
+		font-weight: 150;
+		color: #000000;
+	}
+
+    .button a{
+        margin: 5px;
+    }
+
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 30px;
+      border-radius: 0;
+    }
+
+    /* Remove the jumbotron's default bottom margin */
+     .jumbotron {
+      margin-bottom: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+  </style>
+
+<div  class="col-md-4 col-md-offset-4">
+     <img src="{{Authen.qrPath}}" style='display: block; width: 200px;' width="200" >
+     <strong style="color:rgb(0, 0, 0)">Secret:</strong>
+     <strong style="color:#FF0000">{{Authen.secret.base32}}</strong>
+            <form action="/signauth" method="post">
+            <div class="form-group">
+                <label for="token" style="color:rgb(0, 0, 0)" >Please enter your 2FA code form the app</label>
+                <input type="text" id="token" class="form-control" name="token">
+            </div>
+            <button type="submit" class="btn btn-primary">Login Now</button>
+        </form>
+</div>
+
